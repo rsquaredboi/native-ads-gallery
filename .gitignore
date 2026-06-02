@@ -1,0 +1,4 @@
+_*.json
+_chunks/
+.claude/
+.DS_Store

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Native Ad Swipe File — Long-Form Winners</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --card:#fffdf8; --ink:#1c1a17; --muted:#6b6459;
+    --line:#e3ddd0; --accent:#b4471f; --accent2:#1f5e4f; --chip:#efeadf;
+    --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  header.top{
+    position:sticky; top:0; z-index:20; background:rgba(244,241,234,.92);
+    backdrop-filter:saturate(160%) blur(8px); border-bottom:1px solid var(--line);
+    padding:18px 22px;
+  }
+  .top h1{font-family:Georgia,"Times New Roman",serif; font-size:22px; margin:0 0 4px; letter-spacing:-.01em}
+  .top .sub{color:var(--muted); font-size:13px; max-width:880px}
+  .top .sub b{color:var(--ink); font-weight:600}
+  .bar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:12px}
+  .bar .label{font-size:12px; color:var(--muted); margin-right:2px}
+  button.ctrl{
+    font:inherit; font-size:12.5px; border:1px solid var(--line); background:var(--card);
+    color:var(--ink); padding:6px 11px; border-radius:999px; cursor:pointer; transition:.15s;
+  }
+  button.ctrl:hover{border-color:var(--accent); color:var(--accent)}
+  button.ctrl.active{background:var(--accent); border-color:var(--accent); color:#fff}
+  .spacer{flex:1}
+  .grid{
+    display:grid; gap:18px; padding:22px;
+    grid-template-columns:repeat(auto-fill,minmax(380px,1fr)); align-items:start;
+  }
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column;
+  }
+  .rankrow{display:flex; align-items:center; gap:8px; padding:12px 14px 0}
+  .rank{font-family:Georgia,serif; font-size:13px; color:#fff; background:var(--ink);
+    width:24px; height:24px; border-radius:7px; display:flex; align-items:center; justify-content:center}
+  .adv{font-weight:650; font-size:14px}
+  .dom{font-size:12px; color:var(--muted)}
+  .dom a{color:var(--accent2); text-decoration:none}
+  .dom a:hover{text-decoration:underline}
+  .media{position:relative; margin:12px 14px 0; border-radius:10px; overflow:hidden; background:#eee; border:1px solid var(--line)}
+  .media img{display:block; width:100%; height:230px; object-fit:cover}
+  .media .vid{position:absolute; top:8px; left:8px; background:rgba(0,0,0,.7); color:#fff;
+    font-size:11px; padding:2px 8px; border-radius:6px; letter-spacing:.03em}
+  .media .ph{height:230px; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:13px}
+  .headline{font-family:Georgia,"Times New Roman",serif; font-size:18px; line-height:1.3;
+    margin:14px 14px 0; letter-spacing:-.01em}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; padding:12px 14px 0}
+  .chip{font-size:11.5px; background:var(--chip); color:#544d42; padding:3px 9px; border-radius:999px; white-space:nowrap}
+  .chip b{color:var(--ink); font-weight:650}
+  .chip.win{background:#1f5e4f; color:#fff}
+  .chip.win b{color:#fff}
+  .chip.eng{background:var(--accent); color:#fff}
+  .chip.eng b{color:#fff}
+  .bodywrap{position:relative; margin:12px 14px 0}
+  .body{
+    white-space:pre-wrap; word-wrap:break-word; font-size:13px; line-height:1.62; color:#2b2822;
+    background:#faf7f0; border:1px solid var(--line); border-radius:10px;
+    padding:13px 14px; max-height:340px; overflow:auto;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  .body.expanded{max-height:none}
+  .toggle{font-size:12px; color:var(--accent); cursor:pointer; background:none; border:none; padding:6px 2px 0; font:inherit}
+  .actions{display:flex; flex-wrap:wrap; gap:8px; padding:12px 14px 16px; margin-top:auto}
+  .actions a, .actions button{
+    font:inherit; font-size:12.5px; text-decoration:none; border:1px solid var(--line);
+    background:var(--card); color:var(--ink); padding:7px 12px; border-radius:8px; cursor:pointer; transition:.15s;
+  }
+  .actions a:hover{border-color:var(--accent2); color:var(--accent2)}
+  .actions button.copy:hover{border-color:var(--accent); color:var(--accent)}
+  .actions button.copy.done{background:var(--accent2); color:#fff; border-color:var(--accent2)}
+  footer{padding:8px 22px 40px; color:var(--muted); font-size:12px}
+  .err{padding:40px 22px; color:var(--accent); font-size:14px}
+  @media (max-width:520px){
+    .grid{grid-template-columns:1fr; padding:14px; gap:14px}
+    .top{padding:14px}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Native Ad Swipe File — Long-Form Winners</h1>
+  <div class="sub">
+    Proven <b>native editorial-style ads</b> (story-led images + long-form advertorial copy) from the source list.
+    Ranked by <b>Facebook post engagement</b> — peak likes, comments &amp; shares. Each card shows the full verbatim body for training a copywriting skill.
+    Source: <b>TrendTrack</b> (Meta Ad Library) + <b>AdSpy</b> (per-post engagement) · pulled <b>Jun 2026</b>.
+    <span id="note"></span>
+  </div>
+  <div class="bar">
+    <span class="label">Sort:</span>
+    <button class="ctrl active" data-sort="likes">♥ Likes</button>
+    <button class="ctrl" data-sort="comments">💬 Comments</button>
+    <button class="ctrl" data-sort="shares">↗ Shares</button>
+    <button class="ctrl" data-sort="reach">Reach</button>
+    <button class="ctrl" data-sort="est_spend">Est. spend</button>
+    <button class="ctrl" data-sort="days_running">Days running</button>
+    <button class="ctrl" data-sort="length">Copy length</button>
+    <span class="spacer"></span>
+    <button class="ctrl" id="copyAll">⧉ Copy all (headline + body)</button>
+  </div>
+</header>
+<main id="grid" class="grid" aria-live="polite"></main>
+<footer id="foot"></footer>
+
+<script>
+const fmt = n => (n||n===0) ? Number(n).toLocaleString('en-US') : '—';
+let ADS = [];
+
+function chip(html, cls){ return `<span class="chip ${cls||''}">${html}</span>`; }
+
+function render(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  ADS.forEach((a, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const isVid = a.media_type === 'video';
+    const longRun = a.days_running >= 90;
+
+    card.innerHTML = `
+      <div class="rankrow">
+        <div class="rank">${i+1}</div>
+        <div>
+          <div class="adv"></div>
+          <div class="dom"></div>
+        </div>
+      </div>
+      <div class="media">
+        ${isVid ? '<span class="vid">▶ VIDEO</span>' : ''}
+        <img loading="lazy" alt="ad creative">
+      </div>
+      <div class="headline"></div>
+      <div class="chips">
+        ${a.likes!=null?chip(`♥ <b>${fmt(a.likes)}</b> likes`,'eng'):''}
+        ${a.comments!=null?chip(`💬 <b>${fmt(a.comments)}</b>`):''}
+        ${a.shares!=null?chip(`↗ <b>${fmt(a.shares)}</b>`):''}
+        ${chip(`Reach <b>${fmt(a.reach)}</b>`)}
+        ${chip(`Est. spend <b>$${fmt(a.est_spend)}</b>`)}
+        ${chip(`<b>${fmt(a.days_running)}</b> days${longRun?' ✓':''}`, longRun?'win':'')}
+        ${a.duplicates!=null?chip(`<b>${fmt(a.duplicates)}</b> dupes`):''}
+        ${a.page_likes!=null?chip(`Page likes <b>${fmt(a.page_likes)}</b>`):''}
+        ${chip(`<b>${(a.body||'').length.toLocaleString()}</b> chars`)}
+      </div>
+      <div class="bodywrap">
+        <div class="body"></div>
+        <button class="toggle">Expand ▾</button>
+      </div>
+      <div class="actions">
+        <button class="copy">⧉ Copy headline + body</button>
+        <a class="fb" target="_blank" rel="noopener">FB Ad ↗</a>
+        <a class="lp" target="_blank" rel="noopener">Landing ↗</a>
+      </div>`;
+
+    card.querySelector('.adv').textContent = a.advertiser_name || '—';
+    const dom = card.querySelector('.dom');
+    if (a.landing_page_url) {
+      const link = document.createElement('a');
+      link.href = a.landing_page_url; link.target = '_blank'; link.rel='noopener';
+      link.textContent = a.product_domain || a.landing_page_url;
+      dom.appendChild(link);
+    } else { dom.textContent = a.product_domain || ''; }
+
+    card.querySelector('.headline').textContent = a.headline || '(no headline)';
+
+    const img = card.querySelector('img');
+    img.src = a.image_url;
+    img.onerror = () => {
+      const m = card.querySelector('.media');
+      m.innerHTML = `<div class="ph">${isVid?'▶ video — preview unavailable':'image unavailable'}</div>`;
+    };
+
+    const body = card.querySelector('.body');
+    body.textContent = a.body || '';
+    const tog = card.querySelector('.toggle');
+    // hide toggle if body short enough to show fully
+    requestAnimationFrame(()=>{ if (body.scrollHeight <= body.clientHeight + 4) tog.style.display='none'; });
+    tog.onclick = () => {
+      body.classList.toggle('expanded');
+      tog.textContent = body.classList.contains('expanded') ? 'Collapse ▴' : 'Expand ▾';
+    };
+
+    const copyBtn = card.querySelector('.copy');
+    copyBtn.onclick = () => {
+      const txt = `HEADLINE: ${a.headline||''}\n\n${a.body||''}`;
+      navigator.clipboard.writeText(txt).then(()=>{
+        copyBtn.textContent='✓ Copied'; copyBtn.classList.add('done');
+        setTimeout(()=>{copyBtn.textContent='⧉ Copy headline + body'; copyBtn.classList.remove('done');},1400);
+      });
+    };
+
+    const fb = card.querySelector('.fb'); fb.href = a.fb_ad_library_url || '#';
+    const lp = card.querySelector('.lp');
+    if (a.landing_page_url) lp.href = a.landing_page_url; else lp.style.display='none';
+
+    grid.appendChild(card);
+  });
+  const noEng = ADS.filter(a=>a.likes==null).length;
+  document.getElementById('foot').textContent =
+    `${ADS.length} ads shown · ranked by peak Facebook post engagement · likes/comments/shares from AdSpy (peak instance of each ad), reach/spend from TrendTrack (estimates). ${noEng} ads had no AdSpy match and fall back to reach (sorted to the end).`;
+}
+
+function sortBy(key){
+  ADS.sort((a,b)=> key==='length'
+    ? (b.body||'').length - (a.body||'').length
+    : (Number(b[key])||0) - (Number(a[key])||0));
+  render();
+}
+
+document.querySelectorAll('button.ctrl[data-sort]').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('button.ctrl[data-sort]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); sortBy(btn.dataset.sort);
+  };
+});
+document.getElementById('copyAll').onclick=()=>{
+  const all = ADS.map((a,i)=>`### ${i+1}. ${a.advertiser_name} — ${a.product_domain}\nHEADLINE: ${a.headline}\n\n${a.body}\n`).join('\n--------------------------------------------------\n\n');
+  navigator.clipboard.writeText(all).then(()=>{
+    const b=document.getElementById('copyAll'); b.textContent='✓ All copied'; setTimeout(()=>b.textContent='⧉ Copy all (headline + body)',1600);
+  });
+};
+
+// Load data: prefer inlined window.ADS, else fetch ads.json
+function boot(data){ ADS = data; sortBy('likes'); }
+if (Array.isArray(window.ADS)) {
+  boot(window.ADS);
+} else {
+  fetch('ads.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(boot).catch(e=>{
+    document.getElementById('grid').innerHTML =
+      `<div class="err">Couldn't load ads.json (${e}).<br>Open the single-file version <b>native-ads-gallery.html</b> instead, or serve this folder over http.</div>`;
+  });
+}
+</script>
+</body>
+</html>
