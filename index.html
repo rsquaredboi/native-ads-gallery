@@ -212,9 +212,12 @@ function render(){
 }
 
 function sortBy(key){
-  ADS.sort((a,b)=> key==='length'
-    ? (b.body||'').length - (a.body||'').length
-    : (Number(b[key])||0) - (Number(a[key])||0));
+  ADS.sort((a,b)=>{
+    if(key==='length') return (b.body||'').length - (a.body||'').length;
+    const d = (Number(b[key])||0) - (Number(a[key])||0);
+    if(d) return d;
+    return (Number(b.reach)||0) - (Number(a.reach)||0); // tiebreak: reach (orders the no-engagement group)
+  });
   render();
 }
 
